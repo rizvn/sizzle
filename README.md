@@ -15,7 +15,7 @@ A lightweight java dependency injection framework. No annotations or xml
     //create a singleton for instance using the default constructor 
     ProductDao productDao = ctx.getOrCreate(ProductDao.class)
 
-<strong>ProductDao.class </strong> does not have any special annotations. Sizzle creates an instance of ProductDao using its default constructor if the bean does not exist, otherwise it will return the instance created earlier. <b>Instantiation is thread safe </b> so we can lazily create beans when needed.  Below is a the code for ProductDao. It is just a normal java class. 
+<strong>ProductDao.class </strong> does not have any special annotations. Sizzle creates an instance of ProductDao using its default constructor if the bean does not exist, otherwise it will return the instance created earlier. <b>Instantiation is thread safe </b> so we can lazily create beans when needed.  Below is the code for ProductDao. It is just a normal java class. 
 
     public class ProductDao {
        List<String> getProductNames(){
@@ -37,7 +37,7 @@ Once created the <b><code>Sizzle.getCtx()</code></b> can be called from anywhere
     //freemarker configuration
     Configuration conf = new Configuration(Configuration.VERSION_2_3_21);
     conf.setClassForTemplateLoading(new Object().getClass(), "/templates");
-    ctx.addSingletonBean(Configuration.class, conf, "freemarker");
+    Sizzle.getCtx().addSingletonBean(Configuration.class, conf, "freemarker");
  
 To retrieve this conf instance anywhere in code, call
  <code> Sizzle.getCtx().get(Configuation.class)</code> <b>or</b> <code>Sizzle.getCtx().get("freemarker") </code>
