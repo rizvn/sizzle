@@ -4,7 +4,7 @@
   <artifactId>sizzle</artifactId>
   <version>1.0</version>
   <name>Sizzle</name>
-  <description>A lightweigt dependency injection framework. No annotations or xml</description>
+  <description>A lightweight java dependency injection framework. No annotations or xml</description>
   <properties>
     <java.version>1.6</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
