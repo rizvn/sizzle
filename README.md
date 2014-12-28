@@ -23,7 +23,7 @@ A lightweight java dependency injection framework. No annotations or xml
        }
     }
 
-### Injecting
+### Using a dependency
 Once created the <b><code>Sizzle.getCtx()</code></b> can be called from anywhere in the code to get the context, it will always return the context created when newCtx() was called.
 
     public class SomeClass{

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Lightweight dependency injection container
+ * Lightweight dependency management library
  * @author riz
  */
 public class Sizzle {
