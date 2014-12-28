@@ -1,7 +1,7 @@
 Sizzle
 ======
 
-A lightweight java dependency injection framework. No annotations or xml
+A lightweight java dependency management library. No annotations or xml
 
 ### Quick Start:
 
