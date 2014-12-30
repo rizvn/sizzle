@@ -9,14 +9,14 @@ https://github.com/rizvn/sizzle/blob/master/sizzle-1.0.jar
 ### Quick Start:
 
     //create a new context no properties
-    Sizzle ctx = Sizzle.newCtx(null);
+    Sizzle.newCtx(null);
 
     //--   or  with properties file from relative path ---
-    Sizzle ctx = Sizzle.newCtx("application.properties");
+    Sizzle.newCtx("application.properties");
 
 
     //create a singleton for instance using the default constructor
-    ProductDao productDao = ctx.getOrCreate(ProductDao.class)
+    ProductDao productDao = Sizzle.getCtx().getOrCreate(ProductDao.class)
     
 If a properties file is provided. Sizzle will load the properties. The properties object can be retrieved using <code><b>Sizzle.getCtx().get("ContextProperties")</b></code> which returns a java.util.Properties instance loaded with the properties
 
