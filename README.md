@@ -24,7 +24,7 @@ A lightweight java dependency management library. No annotations or xml
     }
 
 ### Using a dependency
-Once created the <b><code>Sizzle.getCtx()</code></b> can be called from anywhere in the code to get the context, it will always return the context created when newCtx() was called. <code>Sizzle.getCtx().getOrCreate(ProductDao.class)</code> will an existing instance of ProductDao, or create a new instance if one does not exist
+Once created the <b><code>Sizzle.getCtx()</code></b> can be called from anywhere in the code to get the context, it will always return the context created when newCtx() was called. <code>Sizzle.getCtx().getOrCreate(ProductDao.class)</code> will return an existing instance of ProductDao, or create a new instance if one does not exist
 
     public class SomeClass{
       public void someMethod() {
