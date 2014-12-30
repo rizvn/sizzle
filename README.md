@@ -20,6 +20,9 @@ https://github.com/rizvn/sizzle/blob/master/sizzle-1.0.jar
     
 If a properties file is provided. Sizzle will load the properties. The properties object can be retrieved using <code><b>Sizzle.getCtx().get("ContextProperties")</b></code> which returns a java.util.Properties instance loaded with the properties
 
+The newCtx(...) methods create a global Sizzle instance. Each time newCtx(...) is called the global instance is overridden. There can only be one Sizzle context per application (jvm instance).
+
+
 <strong>ProductDao.class </strong> does not have any special annotations. Sizzle creates an instance of ProductDao using its default constructor if the bean does not exist, otherwise it will return the instance created earlier. <b>Instantiation is thread safe </b> so we can lazily create beans when needed.  Below is the code for ProductDao. It is just a normal java class.
 
     public class ProductDao {
