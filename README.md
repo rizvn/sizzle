@@ -17,6 +17,8 @@ https://github.com/rizvn/sizzle/blob/master/sizzle-1.0.jar
 
     //create a singleton for instance using the default constructor
     ProductDao productDao = ctx.getOrCreate(ProductDao.class)
+    
+If a properties file is provided. Sizzle will load the properties. The properties object can be retrieved using <code><b>Sizzle.getCtx().get("ContextProperties")</b></code> which returns a java.util.Properties instance loaded with the properties
 
 <strong>ProductDao.class </strong> does not have any special annotations. Sizzle creates an instance of ProductDao using its default constructor if the bean does not exist, otherwise it will return the instance created earlier. <b>Instantiation is thread safe </b> so we can lazily create beans when needed.  Below is the code for ProductDao. It is just a normal java class.
 
