@@ -1,7 +1,10 @@
 Sizzle
 ======
 
-A lightweight java dependency management library. No annotations or xml
+A lightweight java dependency management library. No annotations or xml.
+
+### Download jar
+https://github.com/rizvn/sizzle/blob/master/sizzle-1.0.jar
 
 ### Quick Start:
 
