@@ -92,7 +92,7 @@ To retrieve this datasource instance anywhere in code call
  <code>sizzle.get(DataSource.class)</code>
 
 ### Manually Registering by Name Only
-    Sizzle sizzle = new Sizzle() 
+    Sizzle sizzle = new Sizzle("application.properties") 
     //datasource
     Properties props = ctx.get("ContextProperties");
     HikariDataSource ds = new HikariDataSource();
