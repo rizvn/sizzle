@@ -36,10 +36,7 @@ public class Sizzle {
    * @return A new context, Sizzle.getCtx() will now return the created context 
    */
   public static Sizzle newCtx(){
-    if(ctx == null){ //lazy init
-      ctx = createContext(null);
-    }
-    return ctx;
+    return createContext(null);
   }
   
   /**
@@ -47,10 +44,7 @@ public class Sizzle {
    * @return A new context, Sizzle.getCtx() will now return the created context 
    */
   public static Sizzle newCtx(String propertiesPath){
-    if(ctx == null){ //lazy init
-      ctx = createContext(propertiesPath);
-    }
-    return ctx;
+    return createContext(propertiesPath);
   }
  
   /**
@@ -69,9 +63,7 @@ public class Sizzle {
   
   private synchronized static Sizzle createContext(String propertiesPath){
     //double saftey to avoid race conditions when creating context
-    if(ctx == null){
-      ctx = new Sizzle(propertiesPath);
-    }
+    ctx = new Sizzle(propertiesPath);
     return ctx;
   }
   
