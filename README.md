@@ -78,6 +78,7 @@ To retrieve this conf instance anywhere in code, call
 
 ### Manually Registering by Class Only
     Sizzle sizzle = new Sizzle()
+    ...
     
     //datasource
     Properties props = ctx.get("ContextProperties");
@@ -93,6 +94,7 @@ To retrieve this datasource instance anywhere in code call
 
 ### Manually Registering by Name Only
     Sizzle sizzle = new Sizzle("application.properties") 
+    ...
     //datasource
     Properties props = ctx.get("ContextProperties");
     HikariDataSource ds = new HikariDataSource();
@@ -106,7 +108,9 @@ To retrieve this datasource instance anywhere in code call
  <code> sizzle.get("TheDb")</code>
 
 ### Manually Registering by Instance Only
-    Sizzle sizzle = new Sizzle() 
+    Sizzle sizzle = new Sizzle("application.properties")
+    ....
+    
     //datasource
     Properties props = Sizzle.getCtx().get("ContextProperties");
     HikariDataSource ds = new HikariDataSource();
