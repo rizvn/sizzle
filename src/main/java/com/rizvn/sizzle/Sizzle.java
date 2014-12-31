@@ -23,6 +23,11 @@ public class Sizzle {
     }
   }
   
+  /**
+   * Default constructor no properties
+   */
+  public Sizzle(){}
+  
   protected void loadProperties(String path){
     try{
       Properties props = new Properties();
