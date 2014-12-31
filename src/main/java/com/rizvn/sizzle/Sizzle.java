@@ -11,11 +11,13 @@ import java.util.Properties;
  * @author riz
  */
 public class Sizzle {
-  private static Sizzle ctx;
   private Map<Class<?>, Object> singletons      = new HashMap<Class<?>, Object>();
   private Map<String, Object>   namedSingletons = new HashMap<String, Object>();
-
-  protected Sizzle(String propPath){
+  
+  /**
+   * @param propPath path to properties file, can be absolute or relative
+   */
+  public Sizzle(String propPath){
     if(propPath != null){
       loadProperties(propPath);
     }
@@ -30,51 +32,7 @@ public class Sizzle {
       throw new SizzleException(ex);
     }
   }
- 
-  /**
-   * Create a new context witout any properties
-   * @return A new context, Sizzle.getCtx() will now return the created context 
-   */
-  public static Sizzle newCtx(){
-    return createContext(null);
-  }
   
-  /**
-   * Create a new context with properties loaded from path
-   * @return A new context, Sizzle.getCtx() will now return the created context 
-   */
-  public static Sizzle newCtx(String propertiesPath){
-    return createContext(propertiesPath);
-  }
- 
-  /**
-   * Return Context create through newCtx() method 
-   * @return
-   */
-  public static Sizzle getCtx(){
-    if(ctx == null){ 
-      throw new SizzleException("Context not created"); 
-    }
-    else{
-      return ctx;
-    }
-  }
-  
-  
-  private synchronized static Sizzle createContext(String propertiesPath){
-    //double saftey to avoid race conditions when creating context
-    ctx = new Sizzle(propertiesPath);
-    return ctx;
-  }
-  
-  /**
-   * Use for replacing context, in tesing
-   * @param ctx context to replace with
-   */
-  public static void setCtx(Sizzle actx){
-    ctx = actx;
-  }
- 
   /**
    * Manually add singleton bean
    * @param bean Bean to add 
@@ -111,7 +69,13 @@ public class Sizzle {
     try {
       //double safety when creating singleton from constructor to avoid race condtion
       if(!singletons.containsKey(clazz)){
-        singletons.put(clazz, clazz.newInstance());
+        Object newInstance = clazz.newInstance();
+        
+        //if instance implements sizzleaware, call its sizzle setter
+        if(newInstance instanceof SizzleAware){
+          ((SizzleAware) newInstance).setSizzle(this);
+        }
+        singletons.put(clazz, newInstance);
       }
     } catch (Exception e){
       throw new SizzleException(e);
@@ -119,7 +83,8 @@ public class Sizzle {
     return this;
   }
   
-  /**Get singleton if one exists, otherwise creates
+  /**
+   * Get singleton if one exists, otherwise creates
    * one using default constuctor
    * @param clazz
    * @return instance of the class
