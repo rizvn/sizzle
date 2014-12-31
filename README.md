@@ -9,49 +9,76 @@ https://github.com/rizvn/sizzle/blob/master/sizzle-1.1.jar
 ### Quick Start:
 
     //create a new context no properties
-    Sizzle.newCtx(null);
+    Sizzle sizzle = new Sizzle()
 
     //--   or  with properties file from relative path ---
-    Sizzle.newCtx("application.properties");
+    Sizzle sizzle = new Sizzle("application.properties");
 
 
     //create a singleton for instance using the default constructor
-    ProductDao productDao = Sizzle.getCtx().getOrCreate(ProductDao.class)
+    ProductDao productDao = sizzle.getOrCreate(ProductDao.class)
     
-If a properties file is provided. Sizzle will load the properties. The properties object can be retrieved using <code><b>Sizzle.getCtx().get("ContextProperties")</b></code> which returns a java.util.Properties instance loaded with the properties
+If a properties file is provided. Sizzle will load the properties. The properties object can be retrieved using <code><b>sizzle.get("ContextProperties")</b></code> which returns a java.util.Properties instance loaded with the properties
 
-The newCtx(...) methods creates Sizzle instance. Sizzle.getCtx() will always return the last sizzle instance created.
+<strong>ProductDao.class </strong> does not have any special annotations it is normal class which implements <b>SizzleAware</b>. So when it is created the setSizzle(..) method is called passing in the sizzle instance that created it. This can be stored in an instance varaible for later use.  <b>Instantiation is thread safe </b> so we can lazily create beans when needed.  Below is the code for ProductDao:
 
-
-<strong>ProductDao.class </strong> does not have any special annotations. Sizzle creates an instance of ProductDao using its default constructor if the bean does not exist, otherwise it will return the instance created earlier. <b>Instantiation is thread safe </b> so we can lazily create beans when needed.  Below is the code for ProductDao. It is just a normal java class.
-
-    public class ProductDao {
-       List<String> getProductNames(){
+    public class ProductDao implements SizzleAware{
+       Sizzle sizzle;
+  
+       @Override
+       public void setSizzle(Sizzle sizzle) {
+           this.sizzle = sizzle;
+       }
+  
+       List<String> getProducts(){
          ...
        }
     }
+    
+Here is another class called ProductController:
+   public class ProductController implements SizzleAware{
+       Sizzle sizzle;
+  
+       @Override
+       public void setSizzle(Sizzle sizzle) {
+           this.sizzle = sizzle;
+       }
+        
+    }
 
-### Using a dependency
-Once created the <b><code>Sizzle.getCtx()</code></b> can be called from anywhere in the code to get the context, it will always return the context created when newCtx() was called. <code>Sizzle.getCtx().getOrCreate(ProductDao.class)</code> will return an existing instance of ProductDao, or create a new instance if one does not exist
 
-    public class SomeClass{
-      public void someMethod() {
-        ProductDao productDao = Sizzle.getCtx().getOrCreate(ProductDao.class);
-        List<String> names = productDao.getProductNames();
-      }
+### Getting a singleton
+If want to use the ProductDao in the ProductController we can just fetch ProductDao using sizzle. for example
+
+    public class ProductDao implements SizzleAware{
+       Sizzle sizzle;
+  
+       @Override
+       public void setSizzle(Sizzle sizzle) {
+           this.sizzle = sizzle;
+       }
+  
+       List<String> getProdducts(){
+          ProductDao productDao = sizzle.getOrCreate(ProductDao.class);
+          return productDao.getProductNames();
+       }
     }
 
 ### Manually Registering by Class Type and Name
+    Sizzle sizzle = new Sizzle()
+    
     //freemarker configuration
     Configuration conf = new Configuration(Configuration.VERSION_2_3_21);
     conf.setClassForTemplateLoading(new Object().getClass(), "/templates");
-    Sizzle.getCtx().addSingletonBean(Configuration.class, conf, "freemarker");
+    sizzle.addSingletonBean(Configuration.class, conf, "freemarker");
 
 To retrieve this conf instance anywhere in code, call
- <code> Sizzle.getCtx().get(Configuation.class)</code> <b>or</b> <code>Sizzle.getCtx().get("freemarker") </code>
+ <code> sizzle.get(Configuation.class)</code> <b>or by name</b><code>sizzle.get("freemarker") </code>
 
 
 ### Manually Registering by Class Only
+    Sizzle sizzle = new Sizzle()
+    
     //datasource
     Properties props = ctx.get("ContextProperties");
     HikariDataSource ds = new HikariDataSource();
@@ -59,12 +86,13 @@ To retrieve this conf instance anywhere in code, call
     ds.setUsername(props.getProperty("db.user"));
     ds.setPassword(props.getProperty("db.password"));
     ds.setJdbcUrl(props.getProperty("db.url"));
-    Sizzle.getCtx().addSingletonBean(DataSource.class, ds);
+    sizzle.addSingletonBean(DataSource.class, ds);
 
 To retrieve this datasource instance anywhere in code call
- <code> Sizzle.getCtx().get(DataSource.class)</code>
+ <code>sizzle.get(DataSource.class)</code>
 
 ### Manually Registering by Name Only
+    Sizzle sizzle = new Sizzle() 
     //datasource
     Properties props = ctx.get("ContextProperties");
     HikariDataSource ds = new HikariDataSource();
@@ -72,12 +100,13 @@ To retrieve this datasource instance anywhere in code call
     ds.setUsername(props.getProperty("db.user"));
     ds.setPassword(props.getProperty("db.password"));
     ds.setJdbcUrl(props.getProperty("db.url"));
-    Sizzle.getCtx().addSingletonBean("TheDb", ds);
+    sizzle.addSingletonBean("TheDb", ds);
 
 To retrieve this datasource instance anywhere in code call
- <code> Sizzle.getCtx().get("TheDb")</code>
+ <code> sizzle.get("TheDb")</code>
 
 ### Manually Registering by Instance Only
+    Sizzle sizzle = new Sizzle() 
     //datasource
     Properties props = Sizzle.getCtx().get("ContextProperties");
     HikariDataSource ds = new HikariDataSource();
@@ -85,8 +114,8 @@ To retrieve this datasource instance anywhere in code call
     ds.setUsername(props.getProperty("db.user"));
     ds.setPassword(props.getProperty("db.password"));
     ds.setJdbcUrl(props.getProperty("db.url"));
-    Sizzle.getCtx().addSingletonBean(ds);
+    sizzle.addSingletonBean(ds);
 
 To retrieve this HikariDataSource instance anywhere in code call
- <code> Sizzle.getCtx().get(HikariDataSource.class)</code> since that is the actual class of the instance
+ <code>sizzle.get(HikariDataSource.class)</code> since that is the actual class of the instance
 
