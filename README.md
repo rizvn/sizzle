@@ -36,7 +36,8 @@ If a properties file is provided. Sizzle will load the properties. The propertie
     }
     
 Here is another class called ProductController:
-   public class ProductController implements SizzleAware{
+
+    public class ProductController implements SizzleAware{
        Sizzle sizzle;
   
        @Override
@@ -48,9 +49,8 @@ Here is another class called ProductController:
 
 
 ### Getting a singleton
-If want to use the ProductDao in the ProductController we can just fetch ProductDao using sizzle. for example
-
-    public class ProductDao implements SizzleAware{
+If want to use the ProductDao in the ProductController we can just fetch ProductDao using sizzle. for example:
+    public class ProductController implements SizzleAware{
        Sizzle sizzle;
   
        @Override
@@ -58,7 +58,7 @@ If want to use the ProductDao in the ProductController we can just fetch Product
            this.sizzle = sizzle;
        }
   
-       List<String> getProdducts(){
+       List<String> getProducts(){
           ProductDao productDao = sizzle.getOrCreate(ProductDao.class);
           return productDao.getProductNames();
        }
