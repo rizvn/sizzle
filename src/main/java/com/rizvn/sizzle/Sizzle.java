@@ -13,7 +13,17 @@ import java.util.Properties;
 public class Sizzle {
   private Map<Class<?>, Object> singletons      = new HashMap<Class<?>, Object>();
   private Map<String, Object>   namedSingletons = new HashMap<String, Object>();
-  
+
+  public static interface SizzleAware {
+    public void setSizzle(Sizzle sizzle);
+  }
+
+  public class SizzleException extends RuntimeException{
+    private static final long serialVersionUID = -6007146458523144337L;
+    public SizzleException(Exception ex) { super(ex); }
+    public SizzleException(String msg)   { super(msg); }
+  }
+
   /**
    * @param propPath path to properties file, can be absolute or relative
    */

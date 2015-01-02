@@ -1,6 +1,6 @@
 package com.rizvn.sizzle;
 
-public class ProductDao implements SizzleAware {
+public class ProductDao implements Sizzle.SizzleAware {
   Sizzle sizzle;
   
   @Override
