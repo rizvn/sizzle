@@ -22,7 +22,7 @@ If a properties file is provided. Sizzle will load the properties. The propertie
 
 <strong>ProductDao.class </strong> does not have any special annotations it is normal class which implements <b>SizzleAware</b>. So when it is created the setSizzle(..) method is called passing in the sizzle instance that created it. This can be stored in an instance varaible for later use.  <b>Instantiation is thread safe </b> so we can lazily create beans when needed.  Below is the code for ProductDao:
 
-    public class ProductDao implements SizzleAware{
+    public class ProductDao implements Sizzle.SizzleAware{
        Sizzle sizzle;
   
        @Override
@@ -37,7 +37,7 @@ If a properties file is provided. Sizzle will load the properties. The propertie
     
 Here is another class called ProductController:
 
-    public class ProductController implements SizzleAware{
+    public class ProductController implements Sizzle.SizzleAware{
        Sizzle sizzle;
   
        @Override
@@ -50,7 +50,7 @@ Here is another class called ProductController:
 
 ### Getting a singleton
 If want to use the ProductDao in the ProductController we can just fetch ProductDao using sizzle. for example:
-    public class ProductController implements SizzleAware{
+    public class ProductController implements Sizzle.SizzleAware{
        Sizzle sizzle;
   
        @Override
