@@ -1,10 +1,10 @@
 Sizzle
 ======
 
-A Single class java dependency management library. No annotations or xml.
+A lightweight java dependency management library. No annotations or xml.
 
 ### Download jar
-https://github.com/rizvn/sizzle/blob/master/sizzle-1.3.jar
+https://github.com/rizvn/sizzle/blob/master/sizzle-1.2.jar
 
 ### Quick Start:
 
@@ -22,7 +22,7 @@ If a properties file is provided. Sizzle will load the properties. The propertie
 
 <strong>ProductDao.class </strong> does not have any special annotations it is normal class which implements <b>SizzleAware</b>. So when it is created the setSizzle(..) method is called passing in the sizzle instance that created it. This can be stored in an instance varaible for later use.  <b>Instantiation is thread safe </b> so we can lazily create beans when needed.  Below is the code for ProductDao:
 
-    public class ProductDao implements Sizzle.SizzleAware{
+    public class ProductDao implements SizzleAware{
        Sizzle sizzle;
   
        @Override
@@ -37,7 +37,7 @@ If a properties file is provided. Sizzle will load the properties. The propertie
     
 Here is another class called ProductController:
 
-    public class ProductController implements Sizzle.SizzleAware{
+    public class ProductController implements SizzleAware{
        Sizzle sizzle;
   
        @Override
@@ -78,6 +78,7 @@ To retrieve this conf instance anywhere in code, call
 
 ### Manually Registering by Class Only
     Sizzle sizzle = new Sizzle()
+    ...
     
     //datasource
     Properties props = ctx.get("ContextProperties");
@@ -92,7 +93,8 @@ To retrieve this datasource instance anywhere in code call
  <code>sizzle.get(DataSource.class)</code>
 
 ### Manually Registering by Name Only
-    Sizzle sizzle = new Sizzle() 
+    Sizzle sizzle = new Sizzle("application.properties") 
+    ...
     //datasource
     Properties props = ctx.get("ContextProperties");
     HikariDataSource ds = new HikariDataSource();
@@ -106,7 +108,9 @@ To retrieve this datasource instance anywhere in code call
  <code> sizzle.get("TheDb")</code>
 
 ### Manually Registering by Instance Only
-    Sizzle sizzle = new Sizzle() 
+    Sizzle sizzle = new Sizzle("application.properties")
+    ....
+    
     //datasource
     Properties props = Sizzle.getCtx().get("ContextProperties");
     HikariDataSource ds = new HikariDataSource();
