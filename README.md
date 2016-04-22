@@ -123,3 +123,4 @@ To retrieve this datasource instance anywhere in code call
 To retrieve this HikariDataSource instance anywhere in code call
  <code>sizzle.get(HikariDataSource.class)</code> since that is the actual class of the instance
 
+Testing pull request
